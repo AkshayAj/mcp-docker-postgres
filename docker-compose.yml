@@ -1,0 +1,25 @@
+services:
+  my-db:
+    image: postgres:latest
+    container_name: my-db
+    environment:
+      POSTGRES_DB: aj_pgsql
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql
+    restart: unless-stopped
+
+  adminer:
+    image: adminer:latest
+    container_name: adminer
+    ports:
+      - "8081:8080"
+    depends_on:
+      - my-db
+    restart: unless-stopped
+
+volumes:
+  pg_data:
